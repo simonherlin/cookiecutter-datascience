@@ -1,0 +1,12 @@
+{
+    "repo_name": "My Data Science Project",
+    "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_') }}",
+    "author_name": "Your Name",
+    "description": "A short description of the project.",
+    "python_version": "3.9",
+    "license": "MIT",
+    "use_sonarqube": ["yes", "no"],
+    "sonarqube_project_key": "{{ cookiecutter.project_slug }}",
+    "sonarqube_server_url": "http://localhost:9100",
+    "sonarqube_token": "your_sonarqube_token"
+}
