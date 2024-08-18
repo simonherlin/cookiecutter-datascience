@@ -1,14 +1,9 @@
-# Nom du fichier de configuration de l'environnement
 ENV_FILE=.env
-# Nom du fichier requirements
 REQUIREMENTS=requirements.txt
-# Dossier de l'environnement virtuel
 VENV=venv
 
-# Nom du projet
 PROJECT_NAME={{ cookiecutter.project_name }}
 
-# Cible par défaut
 .PHONY: help
 help:
 	@echo "Usage: make [target]"
@@ -23,7 +18,7 @@ help:
 	@echo "  lint           - Vérifie le code avec flake8."
 	@echo "  clean          - Supprime l'environnement virtuel et les fichiers temporaires."
 
-# Crée un environnement virtuel et installe les dépendances
+
 .PHONY: install
 install: $(VENV)/bin/activate
 
@@ -32,22 +27,22 @@ $(VENV)/bin/activate: $(REQUIREMENTS)
 	$(VENV)/bin/pip install --upgrade pip
 	$(VENV)/bin/pip install -r $(REQUIREMENTS)
 
-# Exécute les tests unitaires
+
 .PHONY: tests
 tests: $(VENV)/bin/activate
 	$(VENV)/bin/activate && $(VENV)/bin/pytest tests/
 
-# Exécute les tests avec génération de rapports de couverture
+
 .PHONY: coverage
 coverage: $(VENV)/bin/activate
 	$(VENV)/bin/activate && $(VENV)/bin/pytest --cov=src --cov-report=term-missing --cov-report=html tests/
 
-# Lance l'application principale
+
 .PHONY: run
 run: $(VENV)/bin/activate
 	$(VENV)/bin/activate && $(VENV)/bin/python src/{{ cookiecutter.project_slug }}/main.py
 
-# Exécute SonarQube (si configuré)
+
 {% if cookiecutter.use_sonarqube == "yes" %}
 .PHONY: sonar
 sonar: $(VENV)/bin/activate
@@ -62,17 +57,17 @@ sonar:
 	@echo "SonarQube n'est pas configuré pour ce projet."
 {% endif %}
 
-# Formate le code avec black
+
 .PHONY: format
 format: $(VENV)/bin/activate
 	$(VENV)/bin/activate && $(VENV)/bin/black .
 
-# Vérifie le code avec flake8
+
 .PHONY: lint
 lint: $(VENV)/bin/activate
 	$(VENV)/bin/activate && $(VENV)/bin/flake8 src/ tests/
 
-# Nettoie l'environnement virtuel et les fichiers temporaires
+
 .PHONY: clean
 clean:
 	rm -rf $(VENV)
