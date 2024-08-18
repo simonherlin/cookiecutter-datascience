@@ -28,30 +28,30 @@ help:
 install: $(VENV)/bin/activate
 
 $(VENV)/bin/activate: $(REQUIREMENTS)
-	python3 -m venv $(VENV)
+	python3.9 -m venv $(VENV)
+	$(VENV)/bin/pip install --upgrade pip
 	$(VENV)/bin/pip install -r $(REQUIREMENTS)
-	touch $(VENV)/bin/activate
 
 # Exécute les tests unitaires
 .PHONY: tests
 tests: $(VENV)/bin/activate
-	$(VENV)/bin/pytest tests/
+	$(VENV)/bin/activate && $(VENV)/bin/pytest tests/
 
 # Exécute les tests avec génération de rapports de couverture
 .PHONY: coverage
 coverage: $(VENV)/bin/activate
-	$(VENV)/bin/pytest --cov=src --cov-report=term-missing --cov-report=html tests/
+	$(VENV)/bin/activate && $(VENV)/bin/pytest --cov=src --cov-report=term-missing --cov-report=html tests/
 
 # Lance l'application principale
 .PHONY: run
 run: $(VENV)/bin/activate
-	$(VENV)/bin/python src/{{ cookiecutter.project_slug }}/main.py
+	$(VENV)/bin/activate && $(VENV)/bin/python src/{{ cookiecutter.project_slug }}/main.py
 
 # Exécute SonarQube (si configuré)
 {% if cookiecutter.use_sonarqube == "yes" %}
 .PHONY: sonar
 sonar: $(VENV)/bin/activate
-	$(VENV)/bin/sonar-scanner \
+	$(VENV)/bin/activate && sonar-scanner \
 		-Dsonar.projectKey={{ cookiecutter.sonarqube_project_key }} \
 		-Dsonar.sources=. \
 		-Dsonar.host.url={{ cookiecutter.sonarqube_server_url }} \
@@ -65,12 +65,12 @@ sonar:
 # Formate le code avec black
 .PHONY: format
 format: $(VENV)/bin/activate
-	$(VENV)/bin/black .
+	$(VENV)/bin/activate && $(VENV)/bin/black .
 
 # Vérifie le code avec flake8
 .PHONY: lint
 lint: $(VENV)/bin/activate
-	$(VENV)/bin/flake8 src/ tests/
+	$(VENV)/bin/activate && $(VENV)/bin/flake8 src/ tests/
 
 # Nettoie l'environnement virtuel et les fichiers temporaires
 .PHONY: clean
