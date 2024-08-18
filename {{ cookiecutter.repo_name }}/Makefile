@@ -16,8 +16,11 @@ help:
 	@echo "Targets:"
 	@echo "  install        - Crée un environnement virtuel et installe les dépendances."
 	@echo "  tests          - Exécute les tests unitaires avec pytest."
+	@echo "  coverage       - Exécute les tests avec génération de rapports de couverture."
 	@echo "  run            - Lance l'application principale."
 	@echo "  sonar          - Exécute SonarQube pour analyser le code (si configuré)."
+	@echo "  format         - Formate le code avec black."
+	@echo "  lint           - Vérifie le code avec flake8."
 	@echo "  clean          - Supprime l'environnement virtuel et les fichiers temporaires."
 
 # Crée un environnement virtuel et installe les dépendances
@@ -33,6 +36,11 @@ $(VENV)/bin/activate: $(REQUIREMENTS)
 .PHONY: tests
 tests: $(VENV)/bin/activate
 	$(VENV)/bin/pytest tests/
+
+# Exécute les tests avec génération de rapports de couverture
+.PHONY: coverage
+coverage: $(VENV)/bin/activate
+	$(VENV)/bin/pytest --cov=src --cov-report=term-missing --cov-report=html tests/
 
 # Lance l'application principale
 .PHONY: run
@@ -51,6 +59,16 @@ sonar: $(VENV)/bin/activate
 {% else -%}
 	@echo "SonarQube n'est pas configuré pour ce projet."
 {% endif -%}
+
+# Formate le code avec black
+.PHONY: format
+format: $(VENV)/bin/activate
+	$(VENV)/bin/black .
+
+# Vérifie le code avec flake8
+.PHONY: lint
+lint: $(VENV)/bin/activate
+	$(VENV)/bin/flake8 src/ tests/
 
 # Nettoie l'environnement virtuel et les fichiers temporaires
 .PHONY: clean
