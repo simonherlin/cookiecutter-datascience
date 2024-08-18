@@ -50,6 +50,7 @@ run: $(VENV)/bin/activate
 # Exécute SonarQube
 .PHONY: sonar
 sonar: $(VENV)/bin/activate
+{% raw %}
 {% if cookiecutter.use_sonarqube == "yes" -%}
 	$(VENV)/bin/sonar-scanner \
 		-Dsonar.projectKey={{ cookiecutter.sonarqube_project_key }} \
@@ -59,6 +60,7 @@ sonar: $(VENV)/bin/activate
 {% else -%}
 	@echo "SonarQube n'est pas configuré pour ce projet."
 {% endif -%}
+{% endraw %}
 
 # Formate le code avec black
 .PHONY: format
