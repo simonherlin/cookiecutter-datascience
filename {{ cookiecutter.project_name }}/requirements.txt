@@ -1,0 +1,4 @@
+flake8==6.0.0
+pytest
+pytest-cov
+black

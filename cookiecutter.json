@@ -1,5 +1,5 @@
 {
-    "repo_name": "My Data Science Project",
+    "project_name": "My Data Science Project",
     "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_') }}",
     "author_name": "Your Name",
     "description": "A short description of the project.",
