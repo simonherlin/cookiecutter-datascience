@@ -47,20 +47,20 @@ coverage: $(VENV)/bin/activate
 run: $(VENV)/bin/activate
 	$(VENV)/bin/python src/{{ cookiecutter.project_slug }}/main.py
 
-# Exécute SonarQube
+# Exécute SonarQube (si configuré)
+{% if cookiecutter.use_sonarqube == "yes" %}
 .PHONY: sonar
 sonar: $(VENV)/bin/activate
-{% raw %}
-{% if cookiecutter.use_sonarqube == "yes" -%}
 	$(VENV)/bin/sonar-scanner \
 		-Dsonar.projectKey={{ cookiecutter.sonarqube_project_key }} \
 		-Dsonar.sources=. \
 		-Dsonar.host.url={{ cookiecutter.sonarqube_server_url }} \
 		-Dsonar.login={{ cookiecutter.sonarqube_token }}
-{% else -%}
+{% else %}
+.PHONY: sonar
+sonar:
 	@echo "SonarQube n'est pas configuré pour ce projet."
-{% endif -%}
-{% endraw %}
+{% endif %}
 
 # Formate le code avec black
 .PHONY: format
