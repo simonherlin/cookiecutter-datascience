@@ -1,4 +1,8 @@
-flake8==6.0.0
+flake8
 pytest
 pytest-cov
 black
+pandas
+matplotlib
+seaborn
+pyyaml
