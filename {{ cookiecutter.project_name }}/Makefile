@@ -10,14 +10,12 @@ help:
 	@echo ""
 	@echo "Targets:"
 	@echo "  install        - Crée un environnement virtuel et installe les dépendances."
-	@echo "  tests          - Exécute les tests unitaires avec pytest."
-	@echo "  coverage       - Exécute les tests avec génération de rapports de couverture."
+	@echo "  tests       - Exécute les tests avec génération de rapports de couverture."
 	@echo "  run            - Lance l'application principale."
 	@echo "  sonar          - Exécute SonarQube pour analyser le code (si configuré)."
 	@echo "  format         - Formate le code avec black."
 	@echo "  lint           - Vérifie le code avec flake8."
 	@echo "  clean          - Supprime l'environnement virtuel et les fichiers temporaires."
-
 
 .PHONY: install
 install: $(VENV)/bin/activate
@@ -27,26 +25,18 @@ $(VENV)/bin/activate: $(REQUIREMENTS)
 	$(VENV)/bin/pip install --upgrade pip
 	$(VENV)/bin/pip install -r $(REQUIREMENTS)
 
-
 .PHONY: tests
 tests: $(VENV)/bin/activate
-	$(VENV)/bin/activate && $(VENV)/bin/pytest tests/
-
-
-.PHONY: coverage
-coverage: $(VENV)/bin/activate
-	$(VENV)/bin/activate && $(VENV)/bin/pytest --cov=src --cov-report=term-missing --cov-report=html tests/
-
+	$(VENV)/bin/pytest --cov=src --cov-report=term-missing --cov-report=html tests/ --junitxml=results/pytest-results.xml
 
 .PHONY: run
 run: $(VENV)/bin/activate
-	$(VENV)/bin/activate && $(VENV)/bin/python src/{{ cookiecutter.project_slug }}/main.py
-
+	$(VENV)/bin/python src/{{ cookiecutter.project_slug }}/main.py
 
 {% if cookiecutter.use_sonarqube == "yes" %}
 .PHONY: sonar
 sonar: $(VENV)/bin/activate
-	$(VENV)/bin/activate && sonar-scanner \
+	sonar-scanner \
 		-Dsonar.projectKey={{ cookiecutter.sonarqube_project_key }} \
 		-Dsonar.sources=. \
 		-Dsonar.host.url={{ cookiecutter.sonarqube_server_url }} \
@@ -57,16 +47,13 @@ sonar:
 	@echo "SonarQube n'est pas configuré pour ce projet."
 {% endif %}
 
-
 .PHONY: format
 format: $(VENV)/bin/activate
-	$(VENV)/bin/activate && $(VENV)/bin/black .
-
+	$(VENV)/bin/black .
 
 .PHONY: lint
 lint: $(VENV)/bin/activate
-	$(VENV)/bin/activate && $(VENV)/bin/flake8 src/ tests/
-
+	$(VENV)/bin/flake8 src/ tests/ > results/flake8-report.txt
 
 .PHONY: clean
 clean:
