@@ -65,6 +65,12 @@ format: $(VENV)/bin/activate
 lint: $(VENV)/bin/activate
 	$(VENV)/bin/flake8 src/ tests/ > results/flake8-report.txt
 
+.PHONY: build
+build: $(VENV)/bin/activate
+	poetry build
+	@echo "Le package a été créé dans le dossier $(DIST_DIR). Pour l'installer, exécutez la commande suivante dans votre environnement virtuel:"
+	@echo "pip install $(DIST_DIR)/`ls $(DIST_DIR) | grep .whl`"
+
 .PHONY: clean
 clean:
 	rm -rf $(VENV)
