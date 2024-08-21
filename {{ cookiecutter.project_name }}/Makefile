@@ -31,7 +31,17 @@ tests: $(VENV)/bin/activate
 
 .PHONY: run
 run: $(VENV)/bin/activate
-	$(VENV)/bin/python src/{{ cookiecutter.project_slug }}/main.py
+	$(VENV)/bin/python src/{{ cookiecutter.module_name }}/main.py
+
+.PHONY: jupyterlab
+jupyterlab: $(VENV)/bin/activate
+	$(VENV)/bin/jupyter lab
+
+.PHONY: stop-jupyterlab
+stop-jupyterlab:
+	@echo "Arrêter JupyterLab..."
+	@pkill -f "jupyter-lab"
+
 
 {% if cookiecutter.use_sonarqube == "yes" %}
 .PHONY: sonar

@@ -1,11 +1,11 @@
 {
     "project_name": "My Data Science Project",
     "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_') }}",
+    "module_name": "{{ cookiecutter.package_name | replace('-', '_') }}",
     "author_name": "Your Name",
     "description": "A short description of the project.",
     "python_version": "3.9",
     "license": "MIT",
-    "project_type": ["General", "Computer Vision", "NLP", "Time Series"],
     "use_sonarqube": ["yes", "no"],
     "sonarqube_project_key": "{{ cookiecutter.project_slug }}",
     "sonarqube_server_url": "http://localhost:9100",
