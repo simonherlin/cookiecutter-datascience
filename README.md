@@ -6,14 +6,21 @@ This Cookiecutter template is designed to help you quickly start a new data scie
 
 ## Table of Contents
 
-- [Features](#features)
-- [Requirements](#requirements)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Project Structure](#project-structure)
-- [Customization Options](#customization-options)
-- [Contributing](#contributing)
-- [License](#license)
+- [{{ cookiecutter.project\_name }}](#-cookiecutterproject_name-)
+  - [Table of Contents](#table-of-contents)
+  - [Features](#features)
+  - [Requirements](#requirements)
+  - [Installation](#installation)
+    - [Install Cookiecutter](#install-cookiecutter)
+  - [Usage](#usage)
+    - [Generate a New Project](#generate-a-new-project)
+    - [Navigate to Your Project](#navigate-to-your-project)
+    - [Set Up the Environment and Dependencies](#set-up-the-environment-and-dependencies)
+    - [Run Makefile Commands](#run-makefile-commands)
+  - [Project Structure](#project-structure)
+  - [Customization Options](#customization-options)
+  - [Contributing](#contributing)
+  - [License](#license)
 
 ## Features
 
@@ -53,7 +60,7 @@ pipx install cookiecutter
 Run the following command to generate a new project using this template:
 
 ```bash
-cookiecutter https://github.com/your-username/{{ cookiecutter.repo_name }}.git
+cookiecutter git@github.com:simonherlin/cookiecutter-datascience.git
 ```
 
 You will be prompted to enter various details like `project_name`, `author_name`, `description`, and more.
@@ -79,7 +86,9 @@ make install
 Other tasks can also be automated using the `Makefile`:
 
 - Run tests: `make test`
-- Train a model: `make train`
+- Lint project: `make lint`
+- Use sonarqube: `make sonar`
+- Read the documentation for more information
 
 ## Project Structure
 
@@ -89,12 +98,11 @@ The generated project structure is designed to be adaptable to various types of 
 {{ cookiecutter.project_name }}/
 ├── data/
 ├── notebooks/
+├── docs/
 ├── src/
-├── tests/
 ├── config/
 ├── scripts/
 ├── reports/
-├── models/
 ├── logs/
 ├── environment.yml
 ├── requirements.txt
